@@ -1,16 +1,26 @@
 #include <stdio.h>
+#define MIN(a,b) (((a)>(b))?(b):(a))
 
-long long  N, temp=2;
-void factor(int n){
-	if(n%temp==0){
-		printf("%lld\n",temp);
-		N /= temp;
-	}	
-	else temp++;
+int a, b, G, real_a, real_b;
+int temp = 2;
+
+void find_G(){
+	while(temp<=MIN(real_a,real_b)){	
+		if(a%temp==0 && b%temp==0){
+			G *= temp;
+			a /= temp;
+			b /= temp;
+			continue;
+		}
+		temp++;
+	} 
 }
 
-int main() {
-	scanf("%lld",&N);
-	long long real_N = N;
-	while(temp<=real_N) factor(N);
+int main(){
+	scanf("%d %d",&a,&b);
+	G = 1;
+	real_a = a, real_b = b;
+	find_G();
+	printf("%d\n",G);
+	printf("%d\n",(real_a*real_b)/G);
 }
