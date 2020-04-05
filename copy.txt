@@ -1,22 +1,16 @@
 #include <stdio.h>
+#define MIN(a,b) ((a)>(b)?(b):(a))
 
-int N, arr[101];
-
-int GCD(int a, int b){
-	if(a%b==0) return b;
-	if(b==0) return 1;
-	return GCD(b,a%b);
-}
-
+int N, K;
 int main(){
-	scanf("%d",&N);
-	for(int i=0; i<N; i++){
-		scanf("%d",&arr[i]);
-	}
+	scanf("%d %d",&N,&K);
+	K = MIN(K,N-K);
 
-	int gcd;
-	for(int i=1; i<N; i++){
-		gcd = GCD(arr[0],arr[i]);
-		printf("%d/%d\n",(arr[0]/gcd),(arr[i]/gcd));
+	int up=1, down=1;	//분자, 분모
+	for(int i=1; i<=K; i++){
+		up *= N--;
+		down *= i;
 	}
+	printf("%d",up/down);
+
 }
