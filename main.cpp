@@ -1,52 +1,41 @@
 #include <iostream>
-#include <cstring>
 #include <stack>
+#include <vector>
 
 using namespace std;
 
 int main() {
-	char s[105];
-	bool isNo;
-	stack<char> st;
+	int n, i, j, num, temp = 0;
+	stack<int> st;
+	vector<char> vec;	// save the result (+,-)
+	vector<int> seq;
+	cin >> n;
 
-	while (1) {
-		isNo = false;
-		while (!st.empty()) {	// empty stack
-			st.pop();
+	// save the sequence in vector seq
+	for (i = 0; i < n; i++) {
+		cin >> j;
+		seq.push_back(j);
+	}
+
+	for (num = 1; num <= n; num++) {
+		st.push(num);
+		vec.push_back('+');
+
+		if (!st.empty() && st.top() == seq.at(temp)) {
+			do {
+				st.pop();
+				vec.push_back('-');
+				temp++;
+			} while (!st.empty() && st.top() == seq.at(temp));
 		}
+	}
 
-		for (int i = 0; i < 105; i++)		// empty s
-			s[i] = '\0';
+	if (!st.empty()) {
+		cout << "NO" << '\n';
+		return 0;
+	}
 
-		cin.getline(s, 105);		// input
-
-		if (strcmp(s, ".") == 0) return 0;	// program exit
-		else {
-			for (int i = 0; i < strlen(s); i++) {
-				if (s[i] == '(' || s[i] == '[')
-					st.push(s[i]);	// save open-parenthesis at stack
-
-				// if pair matches, pop the opening one from the stack
-				else if (s[i] == ')') {
-					if (!st.empty() && st.top() == '(')
-						st.pop();
-					else {
-						isNo = true;
-						break;
-					}
-				}
-				else if (s[i] == ']') {
-					if (!st.empty() && st.top() == '[')
-						st.pop();
-					else {
-						isNo = true;
-						break;
-					}
-				}
-			}
-			if (!isNo && st.empty()) cout << "yes" << '\n';
-			else cout << "no" << '\n';
-		}
-
+	for (i = 0; i < vec.size(); i++) {
+		cout << vec.at(i) << '\n';
 	}
 }
